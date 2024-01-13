@@ -1,0 +1,126 @@
+def traço():
+    print(f'\033[36m=\033[m'*50)
+
+
+#importando blibiotecas
+from random import choice
+from time import sleep
+
+#definindo a classe
+frutas = ['JAMBO', 'CAQUI', 'PERA', 'UVA', 'LIMAO']
+
+#Lista das letras acertadas
+letrasAcertadas = []
+
+#lista da linha
+linhasPalavra = []
+
+#Titulo
+sleep(1)
+traço()
+print(f'\033[33m{"BEM-VINDO AO JOGO DA FORCA":^50}')
+traço()
+
+#Tema do jogo
+sleep(1)
+print(f'\033[33m{"O TEMA É FRUTAS":^50}\033[m')
+sleep(1)
+traço()
+
+#Sorteando a palavra
+palavra = choice(frutas)
+
+#outros
+quantLetra = ''
+palavraChute = ''
+cont = 0
+quantDigitada = 0
+
+# definindo tamanho das linhas e adicionando na lista
+linhas = '-'
+sleep(1)
+print(f'\033[33m{"A SUA FRUTA É:":^50}')
+print()
+
+for c in range(len(palavra)):
+    linhasPalavra.append(linhas)
+    print(f'{linhas}', end='')
+print()
+traço()
+
+#Começando jogo
+sleep(1)
+print(f'\033[33m{"VAMOS LÁ":^50}')
+sleep(1)
+
+# Definindo quantidade de tentativas
+tentativas = 6
+
+while tentativas != 0:
+    while True:
+        chute = str(input('\033[33mVocê ja sabe qual é a fruta [S/N] ?')).upper().strip()[0]
+        if chute == 'S':
+            break
+        elif chute == 'N':
+            break
+        else:
+            print('\033[31mDigite apenas (S) para sim ou (N) para não!\033[m')
+
+    if chute == 'S':
+        palavraChute = str(input('Qual a fruta? ')).upper()
+        traço()
+        if palavraChute == palavra:
+            print(f'\n\033[32mA Fruta é {palavra}')
+            print('\nPARABÉNS VOCÊ VENCEU O JOGO!')
+            traço()
+            break
+        else:
+            break
+
+    elif chute == 'N':
+        print()
+
+    while True:
+        letra = str(input('\n\033[33mEscolha uma letra: ')).upper()
+        if letra.isnumeric() or letra.strip() == '':
+            print('\033[1:31mDigite apenas letras!\033[m')
+        else:
+            break
+
+    if letra in linhasPalavra:
+        print(f'Você ja digitou a letra {letra}')
+
+    elif letra in palavra:
+        letrasAcertadas.append(letra)
+        print(f'Existe a letra {letra} na palavra.')
+        print()
+
+        for l in palavra:
+            if l == letra:
+                indice = palavra.index(letra)
+                for i, li in enumerate(linhasPalavra):
+                    if i == indice:
+                        linhasPalavra[i] = letra
+                        for c in linhasPalavra:
+                            print(f'{c}', end='')
+        print()
+        if len(letrasAcertadas) == len(palavra):
+            traço()
+            print(f'\n\033[32mA Fruta é {palavra}')
+            print('\nPARABÉNS VOCÊ VENCEU O JOGO!')
+            traço()
+            break
+
+    else:
+        tentativas = tentativas - 1
+        print(f'\033[31mNão existe a letra {letra} na palavra.')
+        if tentativas > 0:
+            print(f'Agora você só possui {tentativas} tentativas.')
+    traço()
+
+
+
+if tentativas == 0 or palavraChute != palavra:
+    print(f'\n\033[31mA Fruta é {palavra}')
+    print('\n\033[31mVOCÊ PERDEU!')
+    traço()
